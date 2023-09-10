@@ -32,4 +32,4 @@ def api_request(yt_video_id: str):
 
     response = requests.get(API_Url, headers=headers, params=querystring)
 
-    return response
+    return response.json()
