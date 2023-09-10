@@ -6,21 +6,26 @@
 {% endblock %}
 
 {% block body %}
-    <h2 class="mt-4 text-center">Youtube Mp3 Downloader</h2>
+    <div id="container" class="container">
+        <h2 class="mt-4 text-center">Youtube Mp3 Downloader</h2>
     
-    <form id="form">
-        <div class="input-group">
-            <label class="sr-only" for="video_url">Input youtube video url</label>
-            <input id="video_url" class="form-control" name="video_url" type="text" placeholder="Youtube video URL" autofocus>
-            <div class="input-group-append">
-                {% csrf_token %}
-                <button class="btn btn-outline-secondary" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
+        <form id="form" class="needs-validation" novalidate>
+            <div class="input-group">
+                <label class="sr-only" for="video_url">Input youtube video url</label>
+                <input id="video-url" class="form-control" name="video-url" type="text" placeholder="Youtube video URL" autofocus required>
+                <div class="input-group-append">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div id="invalid-feedback" class="invalid-feedback">
+                    
+                </div>
             </div>
-        </div>
-    </form>
-
+        </form>
+    </div>
+    
 {% endblock %}
 
 {% block script %}

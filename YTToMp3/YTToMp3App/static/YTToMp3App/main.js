@@ -11,7 +11,8 @@ function sendAPIRequest(e) {
     e.preventDefault();
 
     // Retrive content of user input
-    const ytVideoUrl = document.querySelector('#video_url').value;
+    const inputField = document.querySelector('#video-url');
+    const ytVideoUrl = inputField.value;
 
     // Retrive CSRF token from cookie
     const csrf_token = getCookie('csrftoken')
@@ -23,9 +24,37 @@ function sendAPIRequest(e) {
             ytVideoUrl: ytVideoUrl,
         })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (response.status === 200 || response.status === 400) {
+            return response.json()
+        }
+        // Handle unexpected return status
+        else {
+            console.error(response.status)
+            throw new Error('Unexpected response status');
+        }
+    })
     .then(result => {
+        // Handle and display error for client
+        if (result.error) {
+            // Change error message in feedback
+            document.querySelector('#invalid-feedback').innerHTML = result.error
+
+            // Change class of input field to invalid 
+            inputField.classList.remove('is-valid');
+            inputField.classList.add('is-invalid');
+        }
+        // If there is no error, the request is succeed
+        else {
+
+            // Upon succeed, change class of input field to valid, so error message will disappear 
+            inputField.classList.remove('is-invalid');
+            inputField.classList.add('is-valid');
+        }
         console.log(result)
+        
+        // Clear the input field
+        inputField.value = '';
     })
     .catch(error => {
         console.log('Error: ', error)
@@ -36,6 +65,7 @@ function sendAPIRequest(e) {
 
 
 // Stack overflow code
+// fetch CSRF token from csrftoken cookie
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
