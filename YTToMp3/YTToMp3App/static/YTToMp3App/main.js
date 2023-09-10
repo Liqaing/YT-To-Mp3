@@ -26,11 +26,11 @@ function sendAPIRequest(e) {
     })
     .then(response => {
         if (response.status === 200 || response.status === 400) {
-            return response.json()
+            return response.json();
         }
         // Handle unexpected return status
         else {
-            console.error(response.status)
+            console.error(response.status);
             throw new Error('Unexpected response status');
         }
     })
@@ -38,7 +38,7 @@ function sendAPIRequest(e) {
         // Handle and display error for client
         if (result.error) {
             // Change error message in feedback
-            document.querySelector('#invalid-feedback').innerHTML = result.error
+            document.querySelector('#invalid-feedback').innerHTML = result.error;
 
             // Change class of input field to invalid 
             inputField.classList.remove('is-valid');
@@ -46,18 +46,41 @@ function sendAPIRequest(e) {
         }
         // If there is no error, the request is succeed
         else {
-
             // Upon succeed, change class of input field to valid, so error message will disappear 
             inputField.classList.remove('is-invalid');
             inputField.classList.add('is-valid');
+            
+            // Display mp3 info to user
+            const container = document.querySelector('#info-container');
+            container.style.display = 'block';
+
+            // Create new element and add it into info-cantainer
+            const title = document.createElement('p');
+            title.innerHTML = `Title: ${result.response.title}`;
+            container.appendChild(title);
+
+            const duration = document.createElement('p');
+            duration.innerHTML = `Duration: ${result.response.duration}`;
+            container.append(duration);
+
+            const filesize = document.createElement('p');
+            filesize.innerHTML = `Filesize: ${result.response.filesize} Mb`;
+            container.appendChild(filesize)
+
+            const downloadLink = document.createElement('a');
+            downloadLink.innerHTML = 'Download'
+            downloadLink.href = result.response.link;
+            downloadLink.role = 'button';
+            downloadLink.classList = 'btn btn-primary';
+            container.appendChild(downloadLink);
         }
-        console.log(result)
+        console.log(result);
         
         // Clear the input field
         inputField.value = '';
     })
     .catch(error => {
-        console.log('Error: ', error)
+        console.log('Error: ', error);
     });
 
     return false;

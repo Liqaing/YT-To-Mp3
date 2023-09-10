@@ -1,4 +1,5 @@
 import re
+import time
 import requests
 
 # Retrive video id from URL
@@ -30,6 +31,17 @@ def api_request(yt_video_id: str):
 	    "X-RapidAPI-Host": "youtube-mp36.p.rapidapi.com",
     }
 
-    response = requests.get(API_Url, headers=headers, params=querystring)
+    # Send API request and then convert response to json
+    response = requests.get(API_Url, headers=headers, params=querystring).json()
 
-    return response.json()
+    # Process data format
+    # Convert byte to MB
+    response["filesize"] = round(response["filesize"] / 1000000, 2) 
+    
+    # Convert second to huor:minute:second
+    if (response["duration"] > 3600):
+        response["duration"] = time.strftime("%H:%M:%S", time.gmtime(response["duration"]))
+    else:
+        response["duration"] = time.strftime("%M:%S", time.gmtime(response["duration"]))
+
+    return response
