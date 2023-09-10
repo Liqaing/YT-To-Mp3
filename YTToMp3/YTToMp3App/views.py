@@ -1,5 +1,6 @@
 import json
-import requests
+
+from . import util
 
 from django.shortcuts import render
 from django.http import JsonResponse
@@ -12,17 +13,22 @@ def index(request):
 def mp3APIRequest(request):
 
     if request.method == "POST":
+        
         # parsaing JSON data
         data = json.loads(request.body)
-        print("hi")
-        print(data)
         
+        # Retrive video id from url
+        yt_video_id = util.get_yt_video_id(data['ytVideoUrl'])
+
+        # Send api request
+        response = util.api_request(yt_video_id)
+
         return JsonResponse({
-            'msg': 'Hi'
+            'response': response.json()
         },
         status=200)
 
     return JsonResponse({
-            'msg': 'Hi'
+            'msg': 'error'
         },
         status=200)
