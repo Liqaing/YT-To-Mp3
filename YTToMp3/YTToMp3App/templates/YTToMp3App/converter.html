@@ -7,12 +7,12 @@
 
 {% block body %}
     <div id="container" class="container">
-        <h2 class="mt-4 text-center">Youtube Mp3 Downloader</h2>
+        <h2 class="mt-4 text-center">Youtube Mp3 Converter</h2>
     
         <form id="form" class="needs-validation" novalidate>
             <div class="input-group">
-                <label class="sr-only" for="search-input">Search youtube video</label>
-                <input id="search-input" class="form-control rounded" name="search-input" type="text" placeholder="Search" autofocus required>
+                <label class="sr-only" for="video_url">Input youtube video url</label>
+                <input id="video-url" class="form-control rounded" name="video-url" type="text" placeholder="Youtube video URL" autofocus required>
                 <div class="input-group-append">
                     {% csrf_token %}
                     <button class="btn btn-outline-secondary rounded mr-2" type="submit">
@@ -23,7 +23,16 @@
             </div>
         </form>
         
+        <div id="info-container" class="text-center bg-secondary my-2 p-3">
+            <p>Video Details</p>
+        </div>
     </div>
+    
+
 
 {% endblock %}
 
+{% block script %}
+    <script src="{% static 'YTToMp3App/main.js' %}"></script>
+    <script src="https://kit.fontawesome.com/63581316ff.js" crossorigin="anonymous"></script>
+{% endblock %}

@@ -11,6 +11,11 @@ def index(request):
     return render(request, 'YTToMp3App/index.html')
 
 
+# Convert youtube to mp3
+def converter(request):
+    return render(request, 'YTToMp3App/converter.html')
+
+
 def mp3APIRequest(request):
 
     if request.method != "POST":
