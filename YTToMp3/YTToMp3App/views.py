@@ -38,7 +38,7 @@ def mp3APIRequest(request):
         }, status=400)
 
     # Send api request
-    response = util.api_request(yt_video_id)
+    response = util.mp3_api_request(yt_video_id)
     if response["status"] == "fail":
         return JsonResponse({
             'error': response["msg"]
@@ -47,3 +47,7 @@ def mp3APIRequest(request):
     return JsonResponse({
             'response': response
         }, status=200)
+
+
+def youtubeAPIRequest(request):
+    pass

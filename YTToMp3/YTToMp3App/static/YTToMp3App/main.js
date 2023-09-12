@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     // Add event listener to element
-    document.querySelector('#form').addEventListener('submit', sendAPIRequest);
+    document.querySelector('#form').addEventListener('submit', sendMp3APIRequest);
 
 });
 
-function sendAPIRequest(e) {
+function sendMp3APIRequest(e) {
 
     // Prevent defualt behaviour of web page
     e.preventDefault();
