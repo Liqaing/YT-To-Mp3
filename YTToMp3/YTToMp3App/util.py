@@ -84,6 +84,4 @@ def yt_api_request(search_input: str) -> dict:
         }
         search_result.append(item)
 
-    print(search_result)
-
     return search_result
