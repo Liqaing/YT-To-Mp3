@@ -1,10 +1,10 @@
-import { getCookie } from "./util";
+import { getCookie } from './util.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     
     // Add event listener to element
     document.querySelector('#form').addEventListener('submit', sendMp3APIRequest);
-    document.querySelector('#DownloadLink').a
+    
 });
 
 function sendMp3APIRequest(e) {
@@ -48,6 +48,9 @@ function sendMp3APIRequest(e) {
         }
         // If there is no error, the request is succeed
         else {
+            // Clear container
+            clearVideoInfo();
+
             // Upon succeed, change class of input field to valid, so error message will disappear 
             inputField.classList.remove('is-invalid');
             inputField.classList.add('is-valid');
@@ -87,4 +90,11 @@ function sendMp3APIRequest(e) {
     });
 
     return false;
+}
+
+// Create container(div) that contain video info
+function clearVideoInfo() {
+    const container = document.querySelector('#info-container');
+    container.style.display = 'none';
+    container.innerHTML = '';
 }
