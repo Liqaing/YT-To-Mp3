@@ -45,9 +45,27 @@ def mp3APIRequest(request):
         })
 
     return JsonResponse({
-            'response': response
-        }, status=200)
+        'response': response
+    }, status=200)
 
 
 def youtubeAPIRequest(request):
-    pass
+
+    if request.method != "POST":
+        return JsonResponse({
+            "error": "POST request required."
+        }, status=400)
+
+    data = json.loads(request.body)
+    if not data["search_input"]:
+        return JsonResponse({
+            "error": "Please provide a input to search"
+        }, status=400)
+    
+    # Send api request to youtube
+    response = util.yt_api_request(data["search_input"]) 
+
+
+    return JsonResponse({
+        'response': response
+    }, status=200)
