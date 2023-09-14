@@ -1,4 +1,4 @@
-import { getCookie, clearInfoContainer } from "./util.js";
+import { getCookie } from "./util.js";
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -43,15 +43,23 @@ function sendYTAPIRequest(e) {
             inputField.classList.add("is-invalid");
         }
         else {
-            clearInfoContainer();
-
+            
             // Upon succeed, change class of input field to valid, so error message will disappear 
             inputField.classList.remove("is-invalid");
             inputField.classList.add("is-valid");
             
-            
+            // Add each video to div for displaying to user 
+            const container = document.querySelector("#info-container");
+            result.response.forEach((video) => {
+                const videoCard = creatVideoCard(video);
+                container.appendChild(videoCard);
+            });
+   
+            // Display container
+            container.style.display = "inline-flex";
         };
         console.log(result);
+
         // Clear the input field
         inputField.value = "";
     })
@@ -60,4 +68,25 @@ function sendYTAPIRequest(e) {
     })
 
     return false;
+}
+
+function creatVideoCard(video) {
+
+    // Create div to use in grid layout
+    const videoCard = document.createElement('div');
+    videoCard.classList.add("col-md-4");
+
+    // Create card div
+    const card = `
+        <div class="card">
+            <img class="card-img-top" src="${video.thumbnails_url.url}" alt="thumbnail">
+            <div class="card-body">
+                <h5 class="card-title">${video.title}</h5>
+                <a class="btn btn-primary" href="" role="button">Download</a>
+            </div>
+        </div>
+    `;
+    // Add card html into div 
+    videoCard.innerHTML = card;
+    return videoCard;
 }

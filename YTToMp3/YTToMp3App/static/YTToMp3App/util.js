@@ -16,12 +16,13 @@ function getCookie(name) {
     return cookieValue;
 }
 
+/*
 // Create container(div) that contain video info
 function clearInfoContainer() {
     const container = document.querySelector("#info-container");
     container.style.display = "none";
-    container.innerHTML = "";
 }
+*/
 
 // Export function to use in another file
-export { getCookie, clearInfoContainer };
+export { getCookie };

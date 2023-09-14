@@ -73,14 +73,14 @@ def yt_api_request(search_input: str) -> dict:
     )
     response = request.execute()
 
-    # Filter out response to get only the data i need
+    # Filter out response to get only videoID, title, thumbnails
     search_result = []
 
     for video in response["items"]:
         item = {
             "videoID": video["id"]["videoId"],
             "title": video["snippet"]["title"],
-            "thumbnails_url": video["snippet"]["thumbnails"]["medium"]
+            "thumbnails_url": video["snippet"]["thumbnails"]["high"]
         }
         search_result.append(item)
 

@@ -1,4 +1,4 @@
-import { getCookie, clearInfoContainer } from "./util.js";
+import { getCookie } from "./util.js";
 
 document.addEventListener("DOMContentLoaded", function() {
     
@@ -49,37 +49,24 @@ function sendMp3APIRequest(e) {
         }
         // If there is no error, the request is succeed
         else {
-            // Clear container
-            clearInfoContainer();
-
+        
             // Upon succeed, change class of input field to valid, so error message will disappear 
             inputField.classList.remove("is-invalid");
             inputField.classList.add("is-valid");
             
+            // Select HTML element
+            const title = document.querySelector("#title");
+            const duration = document.querySelector("#duration");
+            const filesize = document.querySelector("#filesize");
+            const downloadLink = document.querySelector("#download-link");
+
             // Display mp3 info to user
-            const container = document.querySelector("#info-container");
-            container.style.display = "block";
-
-            // Create new element and add it into info-cantainer
-            const title = document.createElement("p");
             title.innerHTML = `Title: ${result.response.title}`;
-            container.appendChild(title);
-
-            const duration = document.createElement("p");
             duration.innerHTML = `Duration: ${result.response.duration}`;
-            container.append(duration);
-
-            const filesize = document.createElement("p");
             filesize.innerHTML = `Filesize: ${result.response.filesize} Mb`;
-            container.appendChild(filesize)
-
-            const downloadLink = document.createElement("a");
-            // downloadLink.id = 'DownloadLink'
-            downloadLink.innerHTML = "Download"
             downloadLink.href = result.response.link;
-            downloadLink.role = "button";
-            downloadLink.classList = "btn btn-primary";
-            container.appendChild(downloadLink);
+            
+            document.querySelector("#info-container").style.display = "block";
         };
         console.log(result);
         
