@@ -17,13 +17,25 @@ def get_yt_video_id(url: str) -> str:
     # https://www.youtube.com/watch?v=B3T50jjIvpg&list=RDMMtc2tW0jFHPo&index=5
     # https://youtu.be/B3T50jjIvpg?si=nlQjeYHGKM-qwCxZ
 
+    """
+    Note: regular expression symbol note
+        - ^ = begin with
+        - () use to group a set character or expression
+        - ?: use to indicate non-capturing group
+        - ? indicate zero or once accurrence
+        - \ use to escape special character
+        - | = or
+        - [] = set of character
+        - {} = specific number of occurrence
+    """
+
     # Pattern of URL
-    video_url_pattern = r"^https://(www\.)?(youtube|youtu)?\.(com|be)/(watch\?v=)?([a-zA-Z0-9_-]{11})"
+    video_url_pattern = r"(?:https://)?(?:www\.)?(?:youtube\.|youtu\.)?(?:com/|be/)?(?:watch\?v=)?([a-zA-Z0-9_-]{11})"
 
     # Check if url is matched with the pattern
     video_match = re.match(video_url_pattern, url)
     if video_match:
-        return video_match.group(5)
+        return video_match.group(1)
 
     return None
 
@@ -66,9 +78,9 @@ def yt_api_request(search_input: str) -> dict:
     # make api request, provide some parameter to search
     request = youtube.search().list(
         part = "snippet",
-        maxResults = 10,
+        maxResults = 15,
         q = search_input,
-        # topicId = "/m/04rlf" # Set topic id to music so only music related video will be returned
+        topicId = "/m/04rlf", # Set topic id to music so only music related video will be returned
         type = "video",
     )
     response = request.execute()

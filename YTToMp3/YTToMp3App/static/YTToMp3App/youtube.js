@@ -74,14 +74,14 @@ function creatVideoCard(video) {
 
     // Create div to use in grid layout
     const videoCard = document.createElement('div');
-    videoCard.classList.add("col-md-4");
+    videoCard.classList.add("col-md-4", "mt-2");
 
     // Create card div
     const card = `
         <div class="card">
-            <img class="card-img-top" src="${video.thumbnails_url.url}" alt="thumbnail">
+            <img class="card-img-top" src="${video.thumbnails_url.url}" alt="thumbnail" width="480" height="360">
             <div class="card-body">
-                <h5 class="card-title">${video.title}</h5>
+                <p class="card-title text-truncate">${video.title}</p>
                 <a class="btn btn-primary" href="" role="button">Download</a>
             </div>
         </div>
