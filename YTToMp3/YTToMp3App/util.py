@@ -19,7 +19,6 @@ def get_yt_video_id(url: str) -> str:
 
     """
     Note: regular expression symbol note
-        - ^ = begin with
         - () use to group a set character or expression
         - ?: use to indicate non-capturing group
         - ? indicate zero or once accurrence

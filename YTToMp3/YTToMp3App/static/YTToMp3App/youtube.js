@@ -49,7 +49,11 @@ function sendYTAPIRequest(e) {
             inputField.classList.add("is-valid");
             
             // Add each video to div for displaying to user 
+            
+            // Clear all element in the container
             const container = document.querySelector("#info-container");
+            container.innerHTML = "";
+
             result.response.forEach((video) => {
                 const videoCard = creatVideoCard(video);
                 container.appendChild(videoCard);
