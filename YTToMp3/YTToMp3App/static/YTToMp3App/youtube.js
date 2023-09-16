@@ -5,7 +5,15 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelector("#form").addEventListener("submit", sendYTAPIRequest);
     
     // Use event delegation, bind event listener to parent, so when child is dynamically create, the handler will also execute when the event occure on its child element 
-    document.querySelector("#info-container").addEventListener("click", sendMp3APIRequest);
+    document.querySelector("#info-container").addEventListener("click", e => {
+        
+        e.preventDefault();
+        // Handle the event, only when user click on anchor
+        if (e.target && e.target.matches(".download")) {
+            console.log(e.target.innerHTML);
+        }
+        return false;
+    });
 
 });
 
@@ -92,7 +100,7 @@ function creatVideoCard(video) {
             <div class="card-body">
                 <p class="card-title text-truncate">${video.title}</p>
                 <p class="card-subtitle mb-2 text-muted" hidden>${video.videoID}</p>
-                <a class="btn btn-primary" href="" role="button">Download</a>
+                <a class="btn btn-primary" href="#" role="button">Download</a>
             </div>
         </div>
     `;
@@ -102,7 +110,14 @@ function creatVideoCard(video) {
 }
 
 // When user click download, send api to get mp3 link and download the mp3
-function sendMp3APIRequest() {
+function sendMp3APIRequest(e) {
+
+    e.preventDefault();
+
+    if (e.target.tagName === "a") {
+        console.log(e.target.innerHTML);
+    }
+
 
     // // Retrive content of user input
     // const inputField = document.querySelector("#video-url");
