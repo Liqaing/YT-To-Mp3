@@ -25,13 +25,13 @@ def mp3APIRequest(request):
     
     # parsaing JSON data
     data = json.loads(request.body)
-    if not data["ytVideoUrl"]:
+    if not data["input"]:
         return JsonResponse({
             "error": "Please provide a youtube video url"
         }, status=400)
 
     # Retrive video id from url
-    yt_video_id = util.get_yt_video_id(data["ytVideoUrl"])
+    yt_video_id = util.get_yt_video_id(data["input"])
     if not yt_video_id:
         return JsonResponse({
             "error": "Invalid youtube video url."

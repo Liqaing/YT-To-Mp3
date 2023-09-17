@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", function() {
         if (e.target.tagName === "A") {
             
             // Call function to send api request for mp3 and download
-            // pass in video id, which i embedded as data attribute into element
-            sendMp3APIRequest(e.target.getAttribute("data-video-id"))
+            // pass in whichever anchor element object that was click as argument 
+            sendMp3APIRequest(e.target);
         }
     });
 
@@ -29,7 +29,7 @@ function sendYTAPIRequest(e) {
     const csrf_token = getCookie("csrftoken")
 
     // Make request to backend
-    fetch("\youtubeAPIRequest", {
+    fetch("/youtubeAPIRequest", {
         method: "POST",
         headers: {"X-CSRFToken": csrf_token},
         body: JSON.stringify({
@@ -61,12 +61,11 @@ function sendYTAPIRequest(e) {
             inputField.classList.remove("is-invalid");
             inputField.classList.add("is-valid");
             
-            // Add each video to div for displaying to user 
-            
             // Clear all element in the container
             const container = document.querySelector("#search-result-container");
             container.innerHTML = "";
 
+            // Add each video to div for displaying to user 
             result.response.forEach((video) => {
                 const videoCard = creatVideoCard(video);
                 container.appendChild(videoCard);
@@ -107,74 +106,53 @@ function creatVideoCard(video) {
 }
 
 // When user click download, send api to get mp3 link and download the mp3
-function sendMp3APIRequest(videoID) {
+function sendMp3APIRequest(anchor_element_object) {
 
-    console.log(videoID)
+    // Retrive the video id, which i embedded as data attribute into the element
+    const videoID = anchor_element_object.getAttribute("data-video-id")
 
+    // Retrive CSRF token from cookie
+    const csrf_token = getCookie("csrftoken")
 
-    // // Retrive content of user input
-    // const inputField = document.querySelector("#video-url");
-    // const ytVideoUrl = inputField.value;
+    // Using video id as input to make request to backend
+    fetch("/mp3APIRequest", {
+        method: "POST",
+        headers: {"X-CSRFToken": csrf_token},
+        body: JSON.stringify({
+            input: videoID,
+        })
+    })
+    .then(response => {
+        if (response.status === 200 || response.status === 400) {
+            return response.json();
+        }
+        // Handle unexpected return status
+        else {
+            console.error(response.status);
+            throw new Error("Unexpected response status");
+        }
+    })
+    .then(result => {
+        // Handle and display error for client
+        if (result.error) {
 
-    // // Retrive CSRF token from cookie
-    // const csrf_token = getCookie("csrftoken")
-
-    // // Make request to backend
-    // fetch("/mp3APIRequest", {
-    //     method: "POST",
-    //     headers: {"X-CSRFToken": csrf_token},
-    //     body: JSON.stringify({
-    //         ytVideoUrl: ytVideoUrl,
-    //     })
-    // })
-    // .then(response => {
-    //     if (response.status === 200 || response.status === 400) {
-    //         return response.json();
-    //     }
-    //     // Handle unexpected return status
-    //     else {
-    //         console.error(response.status);
-    //         throw new Error("Unexpected response status");
-    //     }
-    // })
-    // .then(result => {
-    //     // Handle and display error for client
-    //     if (result.error) {
-    //         // Change error message in feedback
-    //         document.querySelector("#invalid-feedback").innerHTML = result.error;
-
-    //         // Change class of input field to invalid 
-    //         inputField.classList.remove("is-valid");
-    //         inputField.classList.add("is-invalid");
-    //     }
-    //     // If there is no error, the request is succeed
-    //     else {
-        
-    //         // Upon succeed, change class of input field to valid, so error message will disappear 
-    //         inputField.classList.remove("is-invalid");
-    //         inputField.classList.add("is-valid");
+            // Alert user of error
+            alert(result.error);
+        }
+        // If there is no error, the request is succeed, so download the mp3
+        else {
             
-    //         // Select HTML element
-    //         const title = document.querySelector("#title");
-    //         const duration = document.querySelector("#duration");
-    //         const filesize = document.querySelector("#filesize");
-    //         const downloadLink = document.querySelector("#download-link");
+            // Pass mp3 link into href attribute of anchor element
+            anchor_element_object.href = result.response.link;
 
-    //         // Display mp3 info to user
-    //         title.innerHTML = `Title: ${result.response.title}`;
-    //         duration.innerHTML = `Duration: ${result.response.duration}`;
-    //         filesize.innerHTML = `Filesize: ${result.response.filesize} Mb`;
-    //         downloadLink.href = result.response.link;
-            
-    //         document.querySelector("#info-container").style.display = "block";
-    //     };
-    //     console.log(result);
-        
-    //     // Clear the input field
-    //     inputField.value = "";
-    // })
-    // .catch(error => {
-    //     console.log("Error: ", error);
-    // });
+            // Simulate click on anchor element, thus download the mp3
+            anchor_element_object.click();   
+       };
+        console.log(result);
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+    });
 
+    return;
 }

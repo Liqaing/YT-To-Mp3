@@ -58,8 +58,11 @@ def mp3_api_request(yt_video_id: str) -> dict:
     response = requests.get(API_Url, headers=headers, params=querystring).json()
 
     # Process data format
-    # Convert byte to MB
-    response["filesize"] = round(response["filesize"] / 1000000, 2) 
+    
+    # Check if responsed video have filesize, it seem that some videos doesn't have filesize
+    if response["filesize"]:
+        # Convert byte to MB
+        response["filesize"] = round(response["filesize"] / 1000000, 2) 
     
     # Convert second to huor:minute:second
     if (response["duration"] > 3600):
@@ -77,10 +80,12 @@ def yt_api_request(search_input: str) -> dict:
     # make api request, provide some parameter to search
     request = youtube.search().list(
         part = "snippet",
+        type = "video",
         maxResults = 15,
         q = search_input,
         topicId = "/m/04rlf", # Set topic id to music so only music related video will be returned
-        type = "video",
+        videoType = "any", # Get any video, not live, not upcomming 
+        
     )
     response = request.execute()
 

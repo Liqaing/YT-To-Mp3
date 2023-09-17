@@ -19,12 +19,12 @@ function sendMp3APIRequest(e) {
     // Retrive CSRF token from cookie
     const csrf_token = getCookie("csrftoken")
 
-    // Make request to backend
+    // Make request to backend with ytVideoUrl as input 
     fetch("/mp3APIRequest", {
         method: "POST",
         headers: {"X-CSRFToken": csrf_token},
         body: JSON.stringify({
-            ytVideoUrl: ytVideoUrl,
+            input: ytVideoUrl,
         })
     })
     .then(response => {
