@@ -5,11 +5,14 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelector("#form").addEventListener("submit", sendYTAPIRequest);
     
     // Use event delegation, bind event listener to parent, so when child is dynamically create, the handler will also execute when the event occure on its child element 
-    document.querySelector("#info-container").addEventListener("click", e => {
+    document.querySelector("#search-result-container").addEventListener("click", e => {
 
-        // Handle the event, only when user click on anchor
+        // Handle the event, only when user click on anchor (download)
         if (e.target.tagName === "A") {
-            console.log(e.target.innerHTML);
+            
+            // Call function to send api request for mp3 and download
+            // pass in video id, which i embedded as data attribute into element
+            sendMp3APIRequest(e.target.getAttribute("data-video-id"))
         }
     });
 
@@ -94,8 +97,7 @@ function creatVideoCard(video) {
             <img class="card-img-top img-fluid" src="${video.thumbnails_url.url}" alt="thumbnail">
             <div class="card-body">
                 <p class="card-title text-truncate">${video.title}</p>
-                <p class="card-subtitle mb-2 text-muted" hidden>${video.videoID}</p>
-                <a class="btn btn-primary" href="#" role="button">Download</a>
+                <a class="btn btn-primary" data-video-id=${video.videoID} href="#" role="button">Download</a>
             </div>
         </div>
     `;
@@ -105,13 +107,9 @@ function creatVideoCard(video) {
 }
 
 // When user click download, send api to get mp3 link and download the mp3
-function sendMp3APIRequest(e) {
+function sendMp3APIRequest(videoID) {
 
-    e.preventDefault();
-
-    if (e.target.tagName === "a") {
-        console.log(e.target.innerHTML);
-    }
+    console.log(videoID)
 
 
     // // Retrive content of user input
