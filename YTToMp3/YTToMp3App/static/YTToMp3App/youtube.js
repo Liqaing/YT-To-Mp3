@@ -6,13 +6,11 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // Use event delegation, bind event listener to parent, so when child is dynamically create, the handler will also execute when the event occure on its child element 
     document.querySelector("#info-container").addEventListener("click", e => {
-        
-        e.preventDefault();
+
         // Handle the event, only when user click on anchor
-        if (e.target && e.target.matches(".download")) {
+        if (e.target.tagName === "A") {
             console.log(e.target.innerHTML);
         }
-        return false;
     });
 
 });
@@ -63,16 +61,13 @@ function sendYTAPIRequest(e) {
             // Add each video to div for displaying to user 
             
             // Clear all element in the container
-            const container = document.querySelector("#info-container");
+            const container = document.querySelector("#search-result-container");
             container.innerHTML = "";
 
             result.response.forEach((video) => {
                 const videoCard = creatVideoCard(video);
                 container.appendChild(videoCard);
             });
-   
-            // Display container
-            container.style.display = "inline-flex";
         };
         console.log(result);
 
@@ -91,12 +86,12 @@ function creatVideoCard(video) {
 
     // Create div to use in grid layout
     const videoCard = document.createElement('div');
-    videoCard.classList.add("col-md-4", "mt-2");
+    videoCard.classList.add("col-sm-4", "mt-2");
 
     // Create card div
     const card = `
         <div class="card">
-            <img class="card-img-top" src="${video.thumbnails_url.url}" alt="thumbnail" width="480" height="360">
+            <img class="card-img-top img-fluid" src="${video.thumbnails_url.url}" alt="thumbnail">
             <div class="card-body">
                 <p class="card-title text-truncate">${video.title}</p>
                 <p class="card-subtitle mb-2 text-muted" hidden>${video.videoID}</p>
