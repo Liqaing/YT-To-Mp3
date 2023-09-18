@@ -142,17 +142,16 @@ function sendMp3APIRequest(anchor_element_object) {
         // If there is no error, the request is succeed, so download the mp3
         else {
             
-            // Pass mp3 link into href attribute of anchor element
-            anchor_element_object.href = result.response.link;
+            // Create new anchor element and simulate a click event on the element to download
+            const downloadMp3Link = document.createElement("a");
 
-            // Simulate click on anchor element, thus download the mp3
-            anchor_element_object.click();   
+            // Pass mp3 link into href attribute of anchor element
+            downloadMp3Link.href = result.response.link;
+            downloadMp3Link.click();
        };
         console.log(result);
     })
     .catch(error => {
         console.log("Error: ", error);
     });
-
-    return;
 }

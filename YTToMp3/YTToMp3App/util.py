@@ -85,7 +85,6 @@ def yt_api_request(search_input: str) -> dict:
         q = search_input,
         topicId = "/m/04rlf", # Set topic id to music so only music related video will be returned
         videoType = "any", # Get any video, not live, not upcomming 
-        
     )
     response = request.execute()
 
