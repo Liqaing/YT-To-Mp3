@@ -2,7 +2,13 @@ import { getCookie } from "./util.js";
 
 document.addEventListener("DOMContentLoaded", function() {
 
-    document.querySelector("#form").addEventListener("submit", sendYTAPIRequest);
+    document.querySelector("#form").addEventListener("submit", (e) => {
+        // Get the return nextPageToken from fetch function
+        let nextPageToken = null;
+        sendYTAPIRequest(e, nextPageToken).then(nextPageToken => {
+            nextPageToken = nextPageToken;
+        });
+    });
     
     // Use event delegation, bind event listener to parent, so when child is dynamically create, the handler will also execute when the event occure on its child element 
     document.querySelector("#search-result-container").addEventListener("click", e => {
@@ -18,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 
-function sendYTAPIRequest(e) {
+function sendYTAPIRequest(e, nextPageToken) {
     e.preventDefault();
 
     // Retrive user input
@@ -28,17 +34,18 @@ function sendYTAPIRequest(e) {
     // Retrive csrf token from cookie
     const csrf_token = getCookie("csrftoken")
 
-    // Make request to backend
-    fetch("/youtubeAPIRequest", {
+    // Make request to backend, update html, and return search info back
+    return fetch("/youtubeAPIRequest", {
         method: "POST",
         headers: {"X-CSRFToken": csrf_token},
         body: JSON.stringify({
             search_input: search_input,
+            next_page_token: nextPageToken,
         })
     })
     .then(response => {
         if (response.status === 200 || response.status === 400) {
-            return response.json();
+              return response.json();
         }
         else {
             console.error(response.status);
@@ -66,21 +73,25 @@ function sendYTAPIRequest(e) {
             container.innerHTML = "";
 
             // Add each video to div for displaying to user 
-            result.response.forEach((video) => {
+            result.search_video.forEach((video) => {
                 const videoCard = creatVideoCard(video);
                 container.appendChild(videoCard);
             });
         };
-        console.log(result);
-
+        
         // Clear the input field
         inputField.value = "";
+
+        console.log(result);
+
+        // Return next page token for requesting next set of result
+        return result.search_info.nextPageToken
     })
     .catch(error => {
         console.log("Error: ", error)
     })
 
-    return false;
+    // return false;
 }
 
 // Create html card for each video

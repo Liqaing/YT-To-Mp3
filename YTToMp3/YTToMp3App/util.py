@@ -72,31 +72,53 @@ def mp3_api_request(yt_video_id: str) -> dict:
 
     return response
 
-def yt_api_request(search_input: str) -> dict:
+def yt_api_request(search_input: str, next_page_token: str) -> dict:
 
     # Create resource object to communicate with youtube api
     youtube = build("youtube", "v3", developerKey = YOUTUBE_API_KEY)
 
-    # make api request, provide some parameter to search
-    request = youtube.search().list(
-        part = "snippet",
-        type = "video",
-        maxResults = 15,
-        q = search_input,
-        topicId = "/m/04rlf", # Set topic id to music so only music related video will be returned
-        videoType = "any", # Get any video, not live, not upcomming 
-    )
-    response = request.execute()
+    # make api request with next_page_token, make sure that there are more page of the result
+    if next_page_token and next_page_token > 0:
+        # provide search parameters
+        request = youtube.search().list(
+            part = "snippet",
+            type = "video",
+            maxResults = 15,
+            q = search_input,
+            nextPageToken = next_page_token, # For retrive the next set of result 
+            topicId = "/m/04rlf", # Set topic id to music so only music related video will be returned
+            videoType = "any", # Get any type video, but not live, not upcomming 
+        )
+        response = request.execute()
+    # Without next_page_token
+    else: 
+        # provide search parameters
+        request = youtube.search().list(
+            part = "snippet",
+            type = "video",
+            maxResults = 15,
+            q = search_input,
+            topicId = "/m/04rlf", # Set topic id to music
+            videoType = "any", # Get any type video
+        )
+        response = request.execute()
+
+    # Retrive search information of the api request
+    print(response)
+    search_info = {
+        # Token for retriving next page in the result
+        # Make sure that there are more pages of search results, to be able to retrive next page
+        "nextPageToken": response["nextPageToken"] if response["pageInfo"]["resultsPerPage"] > 1 else None,
+    }
 
     # Filter out response to get only videoID, title, thumbnails
-    search_result = []
-
+    search_video_result = []
     for video in response["items"]:
         item = {
             "videoID": video["id"]["videoId"],
             "title": video["snippet"]["title"],
             "thumbnails_url": video["snippet"]["thumbnails"]["high"]
         }
-        search_result.append(item)
+        search_video_result.append(item)
 
-    return search_result
+    return search_video_result, search_info

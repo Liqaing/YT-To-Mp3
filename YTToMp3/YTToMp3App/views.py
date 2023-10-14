@@ -63,9 +63,9 @@ def youtubeAPIRequest(request):
         }, status=400)
     
     # Send api request to youtube
-    response = util.yt_api_request(data["search_input"]) 
-
+    search_video, search_info = util.yt_api_request(data["search_input"], data["next_page_token"])
 
     return JsonResponse({
-        'response': response
+        'search_video': search_video,
+        'search_info': search_info
     }, status=200)
