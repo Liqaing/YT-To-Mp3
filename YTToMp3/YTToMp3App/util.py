@@ -121,7 +121,7 @@ def yt_api_request(search_input: str, next_page_token: str) -> dict:
 
         return {
             "status": error_response_content['error']['code'],
-            "msg": message,
+            "error": message,
         }, 0
         
 

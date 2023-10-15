@@ -54,7 +54,6 @@ function sendYTAPIRequest(e, nextPageToken) {
         })
     })
     .then(response => {
-        console.log(response)
         if (response.status === 200 || response.status === 400) {
               return response.json();
         }
@@ -64,6 +63,7 @@ function sendYTAPIRequest(e, nextPageToken) {
         }
     })
     .then(result => {
+        console.log(result)
         // Handle and display error for client
         if (result.error) {
             // Change error message in feedback
