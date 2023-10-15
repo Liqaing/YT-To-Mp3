@@ -63,16 +63,19 @@ function sendYTAPIRequest(e, nextPageToken) {
         }
     })
     .then(result => {
-        console.log(result)
         // Handle and display error for client
         // When there is error properties in result
         if (result.error) {
+            console.log(result);
+
             // Change error message in feedback
             document.querySelector("#invalid-feedback").innerHTML = result.error;
 
             // Change class of input field to invalid 
             inputField.classList.remove("is-valid");
             inputField.classList.add("is-invalid");
+        
+            return null;
         }
         else {
             
@@ -99,10 +102,10 @@ function sendYTAPIRequest(e, nextPageToken) {
         console.log(result);
 
         // Return and next page token for requesting next set of result
-        return result.search_info.nextPageToken
+        return result.search_info.nextPageToken;
     })
     .catch(error => {
-        console.log("Error: ", error)
+        console.log("Error: ", error);
     })
 }
 
