@@ -6,11 +6,59 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container mt-2">
-        <h1 class="text-center">Welcome To MP3TUBE</h1>
-        <p>You can download or convert any of music from YouTube to mp3 file</p>
-        <ul>
-            <li></li>
-        </ul>
+    <div class="container about mt-2">
+        <h2 class="text-center">Welcome To MP3TUBE</h2>
+        <p class="text-center">MP3TUBE can be used to convert YouTube music URL to mp3 file. You can also search for any music by providing the keyword in the input box</p>
+        <h4 class="text-center mt-3">Usage</h4>        
+        <h5 class="bold">How to Convert Youtube Video To Mp3</h5>
+        <ol>
+           <li>
+                Copy video URL from youtube
+                <img class="img-fluid d-block" src="{% static 'YTToMp3App/images/Copy-Video-URL.png' %}" alt="Copy video url from youtube" width="500">
+           </li> 
+           <li>
+                Paste the copy link into the input box and click the button
+                <img class="img-fluid d-block" src="{% static 'YTToMp3App/images/Paste-URL-To-Converter.png' %}" alt="Paste the copy link into the input box" width="500">
+           </li>
+           <li>
+                Click "Download" to download the mp3
+                <img class="img-fluid d-block" src="{% static 'YTToMp3App/images/Download-Mp3-Converter.png' %}" alt="Paste the copy link into the input box" width="500">
+            </li>
+        </ol>
+        <h5 class="bold">How to Search And Download Mp3</h5>
+        <ol>
+            <li>
+                 Type the keyword you want to search, and click the search button
+                 <img class="img-fluid d-block" src="{% static 'YTToMp3App/images/Search-For-Video.png' %}" alt="Type the keyword and click the search button" width="500">
+            </li> 
+            <li>
+                 Click on the download button of any video to download the mp3
+                 <img class="img-fluid d-block" src="{% static 'YTToMp3App/images/Download-The-Mp3.png' %}" alt="Click downlaod button to download the mp3" width="500">
+            </li>
+         </ol>
+         <p class="text-center">Please Note: Due to the site use external API, there might be case when we exceeded the quota. In which case, please wait (a day at most) until the quota reset and the site will work again</p>
+        
     </div>
+    <footer class="footer bg-dark text-white">
+        <div class="text-center p-4 mb-2">
+            <span class="h5">
+                Huot Rithy
+            </span>
+            <span>
+                <a class="btn btn-link mb-2" href="https://www.facebook.com/rithy06?mibextid=ZbWKwL" role="button" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+            </span>
+            <span>
+                <a class="btn btn-link mb-2" href="https://github.com/Liqaing" role="button" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-github"></i>
+                </a>
+            </span>
+            <span>
+                <a class="btn btn-link mb-2" href="https://www.linkedin.com/in/huot-rithy-801b83294" role="button" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </span>
+        </div>
+    </footer>
 {% endblock %}

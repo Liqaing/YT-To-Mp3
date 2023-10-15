@@ -1,0 +1,11 @@
+#info-container {
+    display: none;
+}
+
+.about {
+    font-size: 18px;
+}
+
+.bold {
+    font-weight: 600;
+}

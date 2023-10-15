@@ -63,7 +63,7 @@ def mp3_api_request(yt_video_id: str) -> dict:
     # Process data format
     
     # Check if responsed video have filesize, it seem that some videos doesn't have filesize
-    if response["filesize"]:
+    if "filesize" in response:
         # Convert byte to MB
         response["filesize"] = round(response["filesize"] / 1000000, 2) 
     
