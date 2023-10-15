@@ -85,6 +85,8 @@ function sendYTAPIRequest(e, nextPageToken) {
                 container.innerHTML = "";
             }
 
+            console.log(result)
+
             // Add each video to div for displaying to user 
             result.search_video.forEach((video) => {
                 const videoCard = creatVideoCard(video);

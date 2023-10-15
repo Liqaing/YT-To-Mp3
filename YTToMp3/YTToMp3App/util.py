@@ -2,7 +2,10 @@ import os
 import re
 import time
 import requests
-from googleapiclient.discovery import build, HttpError
+import json
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+from django.http import JsonResponse
 from dotenv import load_dotenv
 
 # Load data from .env
@@ -101,9 +104,26 @@ def yt_api_request(search_input: str, next_page_token: str) -> dict:
             topicId = "/m/04rlf", # Set topic id to music
             videoType = "any", # Get any type video
         )
+    try:
+        response = request.execute()
     
-    response = request.execute()
-    
+    # Assign HttpError class to variable e
+    except HttpError as e:
+        # Loads the content of the error
+        error_response_content = json.loads(e.content)
+
+        # Retrive info about the error
+        message = error_response_content['error']['message']
+        
+        # If the reason for error is quota exceeded, disply a custome message for user to easier understand
+        if error_response_content['errors'][0]['reason']:
+            message = "Request to youtube API quota exceeded, please wait a day for it to reset. You can still use convert Youtube URL to video in meantime"
+
+        return {
+            "status": error_response_content['error']['code'],
+            "msg": message,
+        }, 0
+        
 
     # Retrive search information of the api request
     search_info = {
