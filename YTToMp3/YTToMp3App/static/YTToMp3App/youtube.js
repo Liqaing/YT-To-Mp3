@@ -5,9 +5,19 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelector("#form").addEventListener("submit", (e) => {
         // Get the return nextPageToken from fetch function
         let nextPageToken = null;
-        sendYTAPIRequest(e, nextPageToken).then(nextPageToken => {
-            nextPageToken = nextPageToken;
+        sendYTAPIRequest(e, nextPageToken).then(responseNextPageToken => {
+            nextPageToken = responseNextPageToken;
         });
+    
+        // When user scroll to bottom of the page
+        window.onscroll = () => {
+            if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight) {
+                    // Add next page of search result
+                    sendYTAPIRequest(e, nextPageToken).then(responseNextPageToken => {
+                    nextPageToken = responseNextPageToken;
+                });
+            }
+        }
     });
     
     // Use event delegation, bind event listener to parent, so when child is dynamically create, the handler will also execute when the event occure on its child element 
@@ -68,9 +78,12 @@ function sendYTAPIRequest(e, nextPageToken) {
             inputField.classList.remove("is-invalid");
             inputField.classList.add("is-valid");
             
-            // Clear all element in the container
+            // Check if user request next set of results or new search altogether
             const container = document.querySelector("#search-result-container");
-            container.innerHTML = "";
+            if (!nextPageToken) {
+                // User request new search result, so clear everything in container
+                container.innerHTML = "";
+            }
 
             // Add each video to div for displaying to user 
             result.search_video.forEach((video) => {
@@ -78,20 +91,15 @@ function sendYTAPIRequest(e, nextPageToken) {
                 container.appendChild(videoCard);
             });
         };
-        
-        // Clear the input field
-        inputField.value = "";
 
         console.log(result);
 
-        // Return next page token for requesting next set of result
+        // Return and next page token for requesting next set of result
         return result.search_info.nextPageToken
     })
     .catch(error => {
         console.log("Error: ", error)
     })
-
-    // return false;
 }
 
 // Create html card for each video

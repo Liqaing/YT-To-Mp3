@@ -2,7 +2,7 @@ import os
 import re
 import time
 import requests
-from googleapiclient.discovery import build
+from googleapiclient.discovery import build, HttpError
 from dotenv import load_dotenv
 
 # Load data from .env
@@ -77,21 +77,21 @@ def yt_api_request(search_input: str, next_page_token: str) -> dict:
     # Create resource object to communicate with youtube api
     youtube = build("youtube", "v3", developerKey = YOUTUBE_API_KEY)
 
-    # make api request with next_page_token, make sure that there are more page of the result
-    if next_page_token and next_page_token > 0:
+    # make api request with next_page_token
+    if next_page_token:
         # provide search parameters
         request = youtube.search().list(
             part = "snippet",
             type = "video",
-            maxResults = 15,
+            maxResults = 45,
             q = search_input,
-            nextPageToken = next_page_token, # For retrive the next set of result 
+            pageToken = next_page_token, # For retrive the next set of result 
             topicId = "/m/04rlf", # Set topic id to music so only music related video will be returned
             videoType = "any", # Get any type video, but not live, not upcomming 
         )
-        response = request.execute()
+        
     # Without next_page_token
-    else: 
+    else:
         # provide search parameters
         request = youtube.search().list(
             part = "snippet",
@@ -101,10 +101,11 @@ def yt_api_request(search_input: str, next_page_token: str) -> dict:
             topicId = "/m/04rlf", # Set topic id to music
             videoType = "any", # Get any type video
         )
-        response = request.execute()
+    
+    response = request.execute()
+    
 
     # Retrive search information of the api request
-    print(response)
     search_info = {
         # Token for retriving next page in the result
         # Make sure that there are more pages of search results, to be able to retrive next page
