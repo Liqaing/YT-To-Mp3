@@ -66,7 +66,7 @@ def youtubeAPIRequest(request):
     search_video, search_info = util.yt_api_request(data["search_input"], data["next_page_token"])
 
     # When there is error return in search video, mean that there is error in request to youtube api
-    if search_video["error"]:
+    if "error" in search_video:
         return JsonResponse({
             "error": search_video["error"]
         }, status=400)
@@ -75,3 +75,6 @@ def youtubeAPIRequest(request):
         'search_video': search_video,
         'search_info': search_info
     }, status=200)
+
+def about(request):
+    return render(request, 'YTToMp3App/about.html')

@@ -2,48 +2,74 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-        <link rel="stylesheet" href="{% static 'YTToMp3App/style.css' %}">
-        <title>
-            YTToMp3: 
-            {% block title %}
-            {% endblock %}
-        </title>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-md navbar-dark bg-primary px-4">
-            <div class="container">
-                <h3>MP3TUBE</h3>
-                
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarItems" aria-controls="navbarItems" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'YTToMp3App/style.css' %}" />
+    <title>YTToMp3: {% block title %} {% endblock %}</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary px-4">
+      <div class="container">
+        <h3>MP3TUBE</h3>
 
-                <div id="navbarItems" class="collapse navbar-collapse">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="navbar-item">
-                            <a id="converter" class="nav-link" href="{% url 'converter' %}" role="button">Convert To Mp3</a>
-                        </li>
-                        <li class="navbar-item">
-                            <a id="index" class="nav-link" href="{% url 'index' %}" role="button">Download Mp3</a>
-                        </li>
-                        <li class="navbar-item">
-                            <a id="about" class="nav-link" href="" role="button">About</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarItems"
+          aria-controls="navbarItems"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-        {% block body %}
-        {% endblock %}
-        
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-        <script src="https://kit.fontawesome.com/63581316ff.js" crossorigin="anonymous"></script>
-        {% block script %}
-        {% endblock %}
-    </body>
+        <div id="navbarItems" class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto">
+            <li class="navbar-item">
+              <a
+                id="converter"
+                class="nav-link"
+                href="{% url 'converter' %}"
+                role="button"
+                >Convert To Mp3</a
+              >
+            </li>
+            <li class="navbar-item">
+              <a
+                id="index"
+                class="nav-link"
+                href="{% url 'index' %}"
+                role="button"
+                >Download Mp3</a
+              >
+            </li>
+            <li class="navbar-item">
+              <a id="about" class="nav-link" href="{% url 'about' %}" role="button">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% block body %} {% endblock %}
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/63581316ff.js"
+      crossorigin="anonymous"
+    ></script>
+    {% block script %} {% endblock %}
+  </body>
 </html>

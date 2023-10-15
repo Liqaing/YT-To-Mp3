@@ -75,7 +75,7 @@ def mp3_api_request(yt_video_id: str) -> dict:
 
     return response
 
-def yt_api_request(search_input: str, next_page_token: str) -> dict:
+def yt_api_request(search_input: str, next_page_token: str) -> list:
 
     # Create resource object to communicate with youtube api
     youtube = build("youtube", "v3", developerKey = YOUTUBE_API_KEY)
@@ -99,7 +99,7 @@ def yt_api_request(search_input: str, next_page_token: str) -> dict:
         request = youtube.search().list(
             part = "snippet",
             type = "video",
-            maxResults = 15,
+            maxResults = 45,
             q = search_input,
             topicId = "/m/04rlf", # Set topic id to music
             videoType = "any", # Get any type video
