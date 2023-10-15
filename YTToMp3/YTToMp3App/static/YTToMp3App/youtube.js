@@ -65,6 +65,7 @@ function sendYTAPIRequest(e, nextPageToken) {
     .then(result => {
         console.log(result)
         // Handle and display error for client
+        // When there is error properties in result
         if (result.error) {
             // Change error message in feedback
             document.querySelector("#invalid-feedback").innerHTML = result.error;

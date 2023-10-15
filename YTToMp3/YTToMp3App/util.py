@@ -104,6 +104,8 @@ def yt_api_request(search_input: str, next_page_token: str) -> dict:
             topicId = "/m/04rlf", # Set topic id to music
             videoType = "any", # Get any type video
         )
+    
+    # Execute the request
     try:
         response = request.execute()
     

@@ -65,6 +65,12 @@ def youtubeAPIRequest(request):
     # Send api request to youtube
     search_video, search_info = util.yt_api_request(data["search_input"], data["next_page_token"])
 
+    # When there is error return in search video, mean that there is error in request to youtube api
+    if search_video["error"]:
+        return JsonResponse({
+            "error": search_video["error"]
+        }, status=400)
+
     return JsonResponse({
         'search_video': search_video,
         'search_info': search_info
