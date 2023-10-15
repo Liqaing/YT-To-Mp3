@@ -54,6 +54,7 @@ function sendYTAPIRequest(e, nextPageToken) {
         })
     })
     .then(response => {
+        console.log(response)
         if (response.status === 200 || response.status === 400) {
               return response.json();
         }

@@ -116,7 +116,7 @@ def yt_api_request(search_input: str, next_page_token: str) -> dict:
         message = error_response_content['error']['message']
         
         # If the reason for error is quota exceeded, disply a custome message for user to easier understand
-        if error_response_content['errors'][0]['reason']:
+        if error_response_content['error']['errors'][0]['reason']:
             message = "Request to youtube API quota exceeded, please wait a day for it to reset. You can still use convert Youtube URL to video in meantime"
 
         return {
